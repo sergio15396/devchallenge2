@@ -8,7 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    {{-- Top-right auth links --}}
+    {{-- Auth links --}}
     @if (Route::has('login'))
         <nav class="top-nav" aria-label="Authentication links">
             @auth
