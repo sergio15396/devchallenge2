@@ -25,6 +25,10 @@
             <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
                 {{ $slot }}
             </div>
+            <!-- SSO Google link -->
+            <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg text-center">
+                <a href="/google-auth/redirect" class="text-sm text-gray-600 underline">SSO amb Google</a>
+            </div>
         </div>
     </body>
 </html>

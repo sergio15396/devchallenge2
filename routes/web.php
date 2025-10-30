@@ -4,6 +4,10 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -69,6 +73,36 @@ Route::get('/lists/{id}', function ($id) {
 
     return view('lists.show', ['list' => $list, 'items' => $items]);
 })->middleware(['auth', 'verified'])->name('lists.show');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+Route::get('/google-auth/redirect', function () {
+    return Socialite::driver('google')->redirect();
+});
+
+Route::get('/google-auth/callback', function () {
+    $user_google = Socialite::driver('google')->stateless()->user();
+
+
+    $user = User::updateOrCreate([
+        'email' => $user_google->email,
+    ], [
+        'name' => $user_google->name,
+        'email' => $user_google->email,
+    ]);
+
+    Auth::login($user, true);
+
+    return redirect('/dashboard');
+});
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
