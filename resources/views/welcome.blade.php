@@ -12,7 +12,7 @@
     @if (Route::has('login'))
         <nav class="top-nav" aria-label="Authentication links">
             @auth
-                <a href="{{ url('/dashboard') }}">Dashboard</a>
+                <a href="{{ url('/lists') }}">Lists</a>
             @else
                 <a href="{{ route('login') }}">Log in</a>
                 @if (Route::has('register'))
